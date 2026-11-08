@@ -301,3 +301,20 @@ fn text_is_readable_on_every_surface() {
         }
     }
 }
+
+/// A custom property name that isn't UTF-8 is listed with U+FFFD (the Custom properties tab), and
+/// `MissingGlyphPolicy::Panic` aborts when no face in the family maps it. Inter and egui's
+/// default faces don't, so on a machine whose installed fallback fonts lack it the tab crashed.
+/// The embedded faces alone must draw it in every interface family.
+#[test]
+fn every_interface_family_can_draw_the_replacement_character_from_embedded_faces() {
+    use skrifa::MetadataProvider as _;
+    let fonts = font_definitions_for(false);
+    let draws = |name: &String| {
+        let data = &fonts.font_data[name];
+        skrifa::FontRef::from_index((*data.font).as_ref(), data.index).is_ok_and(|font| font.charmap().map(char::REPLACEMENT_CHARACTER).is_some())
+    };
+    for family in [FontFamily::Proportional, FontFamily::Monospace, FontFamily::Name("medium".into()), FontFamily::Name("semibold".into())] {
+        assert!(fonts.families[&family].iter().any(draws), "no embedded face in {family:?} maps U+FFFD");
+    }
+}
