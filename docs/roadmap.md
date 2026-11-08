@@ -139,7 +139,7 @@ it are in [target-app-parity.md](target-app-parity.md), the ranked work list in 
 and the one-page summary in [ROADMAP.md](../ROADMAP.md). Detailed task lists and acceptance tests
 live in `plan/execution-plan.md` (local-only, gitignored).
 
-Keep it current: update the milestone row and the [ROADMAP.md](../ROADMAP.md) progress log at the
+Keep it current: update the milestone row and the [progress log](roadmap-history.md#progress-log) at the
 end of every session; re-estimate when a milestone lands.
 
 Recovery scheduling (#2663): a native window with a pending dirty snapshot requests a

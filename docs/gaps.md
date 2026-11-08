@@ -32,7 +32,7 @@ references elsewhere stay valid (gap 1, encrypted output Acrobat rejected, close
 no printing on the web, closed by printing through the browser's print dialog).
 
 Hours are Opus 5.5 agent wall-clock hours. "Doc" names the parity document the gap belongs to.
-When a gap closes, delete its entry, note it in the [ROADMAP.md](../ROADMAP.md) progress log and
+When a gap closes, delete its entry, note it in the [progress log](roadmap-history.md#progress-log) and
 update the numbers.
 
 ## Summary

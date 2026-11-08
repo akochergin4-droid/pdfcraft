@@ -1,3 +1,7 @@
+> **Status: archived (snapshot, 2026-10-30).** A one-off integration candidate: the base commit, the
+> included pull requests and the validation state on that day. Its validation notes are not current.
+> For what is shipped now, see [the roadmap](../../ROADMAP.md) and `git log`.
+
 # PdfCraft integration candidate, 2026-10-30
 
 Base: 1d1cbc4ec92012767f5b48c92b451e15eb401c42

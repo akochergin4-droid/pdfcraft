@@ -3,6 +3,40 @@
 Working instructions for agents and contributors are in `AGENTS.md` and `CLAUDE.md`. This page
 collects what the desktop app reads from its environment and where it writes its diagnostics.
 
+## Faster local builds
+
+Measured on an Apple M1 Max (macOS, Rust 1.99), with a warm download cache:
+
+| Build | Time |
+|---|---|
+| `cargo build --release -p pdfcraft-cli`, cold | 3 min 12 s |
+| `cargo build --release -p pdfcraft` (the app), cold | 4 min 46 s |
+| `cargo build -p pdfcraft` (dev), 37 crates to compile | about 51 s; `pdfcraft-ui-egui` alone is 27 s of it |
+| `cargo build -p pdfcraft` (dev) after a one-line edit in `ui-egui` or `engine` | about 4 s |
+
+What this says about where the time goes:
+
+- **Release builds are slow by design.** The release profile uses thin LTO and `codegen-units = 1`
+  (see `Cargo.toml`). Use the dev profile while working; build `--release` only to check speed or ship.
+- **Dev rebuilds are already incremental.** Editing a file in `ui-egui` or `engine` does not rebuild
+  the dependency tree, so splitting `ui-egui` into more crates is not justified by these numbers.
+  The cold dev build is dominated by the wgpu and craft-ui dependencies, then by `ui-egui` itself.
+- **Build only what you touch.** `cargo build -p pdfcraft-cli` skips egui and wgpu entirely, and
+  `cargo test -p <crate>` (as AGENTS.md asks) avoids the workspace-wide test build.
+
+An optional shared compiler cache helps after `cargo clean`, a branch switch or a fresh clone. It is
+local configuration, not part of the repository or CI:
+
+```sh
+brew install sccache            # or: cargo install sccache --locked
+export RUSTC_WRAPPER=sccache    # in your shell profile
+sccache --show-stats
+```
+
+`sccache` caches crates.io and git dependencies and unchanged workspace crates. It does not cache
+crates that build scripts or `incremental = true` recompile, so expect a smaller gain for your own
+crates than for dependencies.
+
 ## Low-disk Cargo profile
 
 When local build storage is constrained, select the opt-in `low-disk` profile explicitly:

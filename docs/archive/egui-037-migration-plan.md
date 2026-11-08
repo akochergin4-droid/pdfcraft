@@ -1,3 +1,7 @@
+> **Status: archived (historical).** Working notes from the egui 0.37 migration, last edited 2026-10-27.
+> The workspace now depends on egui 0.37 (see `Cargo.toml`), so read this as a record of what was
+> decided and measured then, not as a plan to follow. It is kept for its measurements and ledgers.
+
 # Current integration — 2026-10-25
 
 The local integration includes main `d764a8ebca2dc289841b34ea3048f613a9869bbb` and pins craft-ui, craft-quit and craft-print to published `42e30cd5b3f4b114270dd053fccbc33bedc47f68`. The egui, winit and independent craft-docpath pins are unchanged. Its `Cargo.lock` SHA-256 is `3e0c10576c8584eb1f45a27908177e7c65bb83f8e855bf3a5429edd4e7268c80`.
